@@ -30,9 +30,9 @@ function angleBetween(v1, v2){
 
 function areaTriangle(v1, v2){
   let a = Vector3.cross(v1,v2);
-  let areaOfparallelogram = a.magnitude();
+  let areaOfParallelogram = a.magnitude();
 
-  return areaOfparallelogram / 2;
+  return areaOfParallelogram / 2;
 }
 
 function drawVector(v, color){
