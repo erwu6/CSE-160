@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Change a point color</title>
+  </head>
+
+  <body onload="main()">
+    <canvas id="webgl" width="400" height="400">
+    Please use a browser that supports "canvas"
+    </canvas>
+    <img id="drawing" src="drawing.png" alt="drawing of a duck and flower" style="width: 400px; visibility: hidden;" >
+   
+    <!-- <p>Details about the number of dots used:
+    <p id="numdot"> XXX </p> -->
+
+    <p>
+      <!-- <button type="button" id="green">Green</button>
+      <button type="button" id="red">Red</button> -->
+      Clear Canvas: <button type="button" id="clearButton">Clear</button>
+
+    <p>
+      Make my Drawing: <button type="button" id="drawButton">Draw!</button>
+
+    <p>
+      Shapes:
+      <button type="button" id="pointButton">Point</button>
+      <button type="button" id="triButton">Triangle</button>
+      <button type="button" id="circleButton">Circle</button>
+
+    <p>
+      Color Sliders:
+      Red <input type="range" min="0" max="100" value="0" class="slider" id="redSlide">
+      Green <input type="range" min="0" max="100" value="0" class="slider" id="greenSlide">
+      Blue <input type="range" min="0" max="100" value="0" class="slider" id="blueSlide">
+    <p>
+      Shape Size: <input type="range" min="5" max="40" value="0" class="slider" id="sizeSlide">
+      (Circles) Segment Count: <input type="range" min="5" max="40" value="0" class="slider" id="segmentSlide">
+    
+
+    <script src="lib/webgl-utils.js"></script>
+    <script src="lib/webgl-debug.js"></script>
+    <script src="lib/cuon-utils.js"></script>
+    <script src="Point.js"></script>
+    <script src="Triangle.js"></script>
+    <script src="Circle.js"></script>
+    <script src="ColoredPoints.js"></script>
+  </body>
+</html>
