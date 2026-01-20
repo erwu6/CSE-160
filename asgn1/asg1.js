@@ -375,7 +375,7 @@ function spacePressed(){
 function returnPressed(){
   // gl.clearColor(0.0, 0.0, 0.0, 1.0);
   // renderAllShapes();
-  sendTextToHTML("You have entered my mini game! You are the white dot and you get to eat all the red apples you want! Watch out, if you eat too many the game will finish. \n Clear the canvas to get back to the drawings.", "description");
+  sendTextToHTML("You have entered my mini game! You are the white dot and you get to eat all the red apples you want (to eat the apple, it must be in the center of your dot.)! Watch out, if you eat too many the game will finish. \n Move the white dot with arrow keys or WASD keys. Clear the canvas to get back to the drawings.", "description");
   eatPixels();
 }
 
