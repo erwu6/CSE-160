@@ -329,17 +329,28 @@ let g_selectedColor = [1.0,1.0,1.0,1.0];
 let g_selectedSize = 5;
 let g_selectedType = POINT;
 let g_selectedSegments = 10;
+let g_hflip = false;
+let g_vflip = false;
 
 function addActionsForHtmlUI(){
 
   //Button Events (Shape Type)
   // document.getElementById('green').onclick = function(){ g_selectedColor = [0.0, 1.0, 0.0, 1.0]; };
   // document.getElementById('red').onclick = function(){ g_selectedColor = [1.0, 0.0, 0.0, 1.0]; };
-  document.getElementById('clearButton').onclick = function(){g_shapesList = []; renderAllShapes();};
+  document.getElementById('clearButton').onclick = function(){
+    g_shapesList = [];
+    gl.clearColor(0.0, 0.0, 0.0, 1.0);
+    renderAllShapes();
+    sendTextToHTML("Welcome to my Assignment 1 work! Check out the bottom buttons and click the space bar or enter key for mini easter eggs!", "description");
+
+  };
 
   document.getElementById('pointButton').onclick = function(){g_selectedType=POINT};
   document.getElementById('triButton').onclick = function(){g_selectedType=TRIANGLE;};
   document.getElementById('circleButton').onclick = function(){g_selectedType=CIRCLE;};
+
+  document.getElementById('hflipTriButton').onclick = function(){g_hflip=!g_hflip;};
+  document.getElementById('vflipTriButton').onclick = function(){g_vflip=!g_vflip;};
 
   document.getElementById('drawButton').onclick = function(){
     showImage();
@@ -364,10 +375,12 @@ function spacePressed(){
 function returnPressed(){
   // gl.clearColor(0.0, 0.0, 0.0, 1.0);
   // renderAllShapes();
+  sendTextToHTML("You have entered my mini game! You are the white dot and you get to eat all the red apples you want! Watch out, if you eat too many the game will finish. \n Clear the canvas to get back to the drawings.", "description");
   eatPixels();
 }
 
 function eatPixels(){
+  g_shapesList = [];
   gl.clearColor(74/255, 193/255, 94/255, 1.0);
   
   var snake = new Point();
@@ -382,10 +395,10 @@ function eatPixels(){
   apple.size = 25;
   g_shapesList.push(apple);
 
-  var poisionApple = new Point();
-  poisionApple.position = [Math.random()*2-1, Math.random()*2-1];
-  poisionApple.color = [0, 0, 0, 1.0];
-  poisionApple.size = 25;
+  // var poisionApple = new Point();
+  // poisionApple.position = [Math.random()*2-1, Math.random()*2-1];
+  // poisionApple.color = [0, 0, 0, 1.0];
+  // poisionApple.size = 25;
 
   renderAllShapes();
 
@@ -413,15 +426,21 @@ function eatPixels(){
       apple.position = [Math.random()*2-1, Math.random()*2-1];
       g_shapesList.push(apple);
     }
-    if ((snake.position[0] < poisionApple.position[0] + 0.1 && snake.position[0] > poisionApple.position[0] - 0.1) && (snake.position[1] < poisionApple.position[1] + 0.1 && snake.position[1] > poisionApple.position[1] - 0.1)){
-      alert("Game Over! If you would like to play again, please refresh the page.");
-      return;
-    }
+    // if ((snake.position[0] < poisionApple.position[0] + 0.1 && snake.position[0] > poisionApple.position[0] - 0.1) && (snake.position[1] < poisionApple.position[1] + 0.1 && snake.position[1] > poisionApple.position[1] - 0.1)){
+    //   alert("Game Over! If you would like to play again, please refresh the page.");
+    //   return;
+    // }
     if (snake.size % 50 == 0) {
       apple.size *= 5;
-      g_shapesList.push(poisionApple);
+      // g_shapesList.push(poisionApple);
+    }
+    if (snake.position[0] > 1 || snake.position[0] < -1 || snake.position[1] > 1 || snake.position[1] < -1){
+      snake.position = [-.9, .9];
+      alert("Out of Bounds! If you would like to play again, please refresh the page.");
+      return;
     }
     if (snake.size >= 400) {
+      snake.size = 25;
       alert("You made it to the end! If you would like to play again, please refresh the page.");
       return;
     }
@@ -477,6 +496,8 @@ function click(ev) {
   }
   else if (g_selectedType==TRIANGLE) {
     point = new Triangle();
+    point.hflip = g_hflip;
+    point.vflip = g_vflip;
   }
   else {
     point = new Circle();

@@ -1,1 +1,8 @@
-Hello, CSE-160!
+This is my second assignment for CSE 160.
+
+I utilized the following resources to complete this assignment:
+
+- Resources listed in the assignment
+- https://www.geeksforgeeks.org/html/how-to-show-images-on-click-using-html/
+- ChatGPT to help with the syntax of the code (on line 546 in asg1.js)
+- Google's AI overview to explain concepts such as "keydown" and event.key to record what keys are being pressed
