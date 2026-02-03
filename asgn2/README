@@ -1,1 +1,9 @@
-Hello, CSE-160!
+This is my assignment 2 for CSE 160.
+
+I utilized the following resources to complete this assignment:
+
+- Resources listed in the assignment
+- ChatGPT to help with the syntax of the code (on line 150 in BlockyAnimal.js)
+- Work from previous assignments and YouTube videos given on this assignment
+- Lab Activity: Performance to view the FPS
+- Google's AI overview to explain concepts such as "keydown" and event.key to record what keys are being pressed
