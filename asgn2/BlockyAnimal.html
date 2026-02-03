@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Assignment 1 CSE160</title>
+  </head>
+
+  <body onload="main()">
+    <canvas id="webgl" width="400" height="400">
+    Please use a browser that supports "canvas"
+    </canvas>
+    <img id="drawing" src="drawing.png" alt="drawing of a duck and flower" style="width: 400px; visibility: hidden;" >
+   
+    <!-- <p>Details about the number of dots used: -->
+    <p id="numdot"> Welcome to my Assignment 2 work! Check out the bottom buttons and click the space bar or enter key for mini easter eggs! </p>
+
+    Flap Wings <input type="range" min="-45" max="45" value="0" class="slider" id="yellowSlide"> 
+    <button type="button" id="startani">Start Animation</button>
+        <button type="button" id="stopani">Stop Animation</button>
+
+        <button type="button" id="reset">Reset</button>
+    </p>
+    <p>
+      Camera Angle <input type="range" min="-90" max="180" value="5" class="slider" id="angleSlide">
+
+      Camera Angle Verical<input type="range" min="-90" max="180" value="5" class="slider" id="vertSlide">
+
+            test <input type="range" min="-2" max="2" value="0" class="slider" id="textSlide">
+
+    
+
+    <script src="lib/webgl-utils.js"></script>
+    <script src="lib/webgl-debug.js"></script>
+    <script src="lib/cuon-utils.js"></script>
+    <script src="lib/cuon-matrix.js"></script>
+    <script src="Point.js"></script>
+    <script src="Triangle.js"></script>
+    <script src="Circle.js"></script>
+    <script src="BlockyAnimal.js"></script>
+    <script src="Cube.js"></script>
+    <script src="TriPrism.js"></script>
+    <script src="https://mrdoob.github.io/stats.js/build/stats.min.js"></script>
+  </body>
+</html>
