@@ -357,7 +357,7 @@ function renderScene(ev){
   var rightFoot = new Cube();
   rightFoot.color = [9/255, 77/255, 23/255, 1];
   rightFoot.matrix = new Matrix4(rightLeg.matrix);
-  rightFoot.matrix.rotate(g_foot + g_blink/90, 0, 0,1);
+  rightFoot.matrix.rotate(g_foot/2 + g_blink/90, 0, 0,1);
   rightFoot.matrix.translate(0.5, -0.01, 0.001);
   rightFoot.matrix.scale(-2.51,0.0501, 1.001);
   rightFoot.render();
@@ -400,7 +400,7 @@ function renderScene(ev){
   var leftFoot = new Cube();
   leftFoot.matrix = leftLeg.matrix;
   leftFoot.color = [9/255, 77/255, 23/255, 1];
-  leftFoot.matrix.rotate(g_foot + g_blink/90, 0, 0,1);
+  leftFoot.matrix.rotate(g_foot/2 + g_blink/90, 0, 0,1);
   leftFoot.matrix.translate(0.5, -0.01, 0.001);
   leftFoot.matrix.scale(-2.51,0.0501, 1.001);
   leftFoot.render();
