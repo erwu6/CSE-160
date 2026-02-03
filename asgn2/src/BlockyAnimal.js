@@ -119,7 +119,7 @@ function addActionsForHtmlUI(){
   //Button Events (Shape Type)
   // document.getElementById('green').onclick = function(){ g_selectedColor = [0.0, 1.0, 0.0, 1.0]; };
   // document.getElementById('red').onclick = function(){ g_selectedColor = [1.0, 0.0, 0.0, 1.0]; };
-  document.getElementById('startani').onclick = function(){ani = true;};
+  document.getElementById('startani').onclick = function(){g_yellowAngle = 0; ani = true;};
   document.getElementById('stopani').onclick = function(){ani = false;};
 
   document.getElementById('reset').onclick = function(){g_yellowAngle = 0;};
