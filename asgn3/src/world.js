@@ -54,6 +54,7 @@ let u_GlobalRotateMatrix;
 let u_Sampler0;
 let u_Sampler1;
 let u_whichTexture;
+let found = false;
 
 function setupWebGL() {
   // Retrieve <canvas> element
@@ -410,8 +411,9 @@ function keydown(ev){
   console.log('g_camera:', g_camera);
   console.log(win_x, win_y);
 
-  if ((g_camera.eye.x < win_x + 2) && (g_camera.eye.x > win_x - 2) && (g_camera.eye.z < win_y + 2) && (g_camera.eye.z > win_y - 2)){
-    alert("You found the flowers!");
+  if (!found && (g_camera.eye.x < win_x + 2) && (g_camera.eye.x > win_x - 2) && (g_camera.eye.z < win_y + 2) && (g_camera.eye.z > win_y - 2)){
+    alert("You found the flowers! To play again, refresh the page.");
+    found = true;
     g_camera.reset();
   }
 
