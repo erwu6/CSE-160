@@ -10,6 +10,7 @@ function hummingbird(offsetX = 0, offsetY = 0, offsetZ = 0){
   body.textureNum = tex;
   body.matrix.rotate(-45, 0, 0, 1);
   body.matrix.scale(0.71, 0.31, 0.31);
+  body.normalMatrix.setInverseOf(body.matrix).transpose();
   body.render();
 
   var tail = new TriPrism();
@@ -21,6 +22,7 @@ function hummingbird(offsetX = 0, offsetY = 0, offsetZ = 0){
   tail.matrix.translate(0.001, -.5, -.13);
   tail.matrix.rotate(-10 * Math.sin(g_yellowAngle/50), 1, 0, 0);
   tail.matrix.scale(0.3, -0.3, 0.6);
+  tail.normalMatrix.setInverseOf(tail.matrix).transpose();
   tail.render();
 
   var tailFan1 = new TriPrism();
@@ -33,6 +35,7 @@ function hummingbird(offsetX = 0, offsetY = 0, offsetZ = 0){
   tailFan1.matrix.rotate(5, 1, 0, 0);
   tailFan1.matrix.rotate(3, 1, 0, 1);
   tailFan1.matrix.rotate(-10* Math.sin(g_yellowAngle/50), 0, 0, 1);
+  tailFan1.normalMatrix.setInverseOf(tailFan1.matrix).transpose();
   tailFan1.render();
 
   var tailFan2 = new TriPrism();
@@ -43,6 +46,7 @@ function hummingbird(offsetX = 0, offsetY = 0, offsetZ = 0){
   tailFan2.matrix.scale(0.5, 0.5 + g_yellowAngle/1000, 0.3);
   tailFan2.matrix.rotate(5, 1, 0, 0);
   tailFan2.matrix.rotate(3, 1, 0, 1);
+  tailFan2.normalMatrix.setInverseOf(tailFan2.matrix).transpose();
   tailFan2.render();
 
   var tailFan3 = new TriPrism();
@@ -54,6 +58,7 @@ function hummingbird(offsetX = 0, offsetY = 0, offsetZ = 0){
   tailFan3.matrix.rotate(5, 1, 0, 0);
   tailFan3.matrix.rotate(3, 1, 0, 1);
   tailFan3.matrix.rotate(10 * Math.sin(g_yellowAngle/50), 0, 0, 1);
+  tailFan3.normalMatrix.setInverseOf(tailFan3.matrix).transpose();
   tailFan3.render();
 
   var head = new Cube();
@@ -63,6 +68,7 @@ function hummingbird(offsetX = 0, offsetY = 0, offsetZ = 0){
   head.matrix.rotate(30, 0, 0, 1);
   head.matrix.rotate(-5 * (g_blink/90 - 1), 0, 0, 1);
   head.matrix.scale(0.29, 0.29, 0.29);
+  head.normalMatrix.setInverseOf(head.matrix).transpose();
   head.render();
 
   var beak = new Cube();
@@ -73,7 +79,8 @@ function hummingbird(offsetX = 0, offsetY = 0, offsetZ = 0){
   beak.matrix.rotate(25, 0, 0, 1);
   beak.matrix.rotate(180, 0, 1, 0);
   beak.matrix.rotate(10 * (g_blink/90 - 1), 0, 0, 1);
-  beak.matrix.scale(0.6, 0.05, 0.05);
+  beak.matrix.scale(-0.6, -0.05, -0.05);
+  beak.normalMatrix.setInverseOf(beak.matrix).transpose();
   beak.render();
 
   var eyes = new Cube();
@@ -82,6 +89,7 @@ function hummingbird(offsetX = 0, offsetY = 0, offsetZ = 0){
   eyes.matrix.translate(offsetX - 0.25, offsetY + 0.16, offsetZ);
   eyes.matrix.rotate(10, 0, 0, 1);
   eyes.matrix.scale(0.05, 0.05 * g_blink/90, 0.32);
+  eyes.normalMatrix.setInverseOf(eyes.matrix).transpose();
   eyes.render();
 
   var bigRightWing = new TriPrism();
@@ -99,6 +107,7 @@ function hummingbird(offsetX = 0, offsetY = 0, offsetZ = 0){
   bigRightWing.matrix.rotate(45 * (2*Math.sin(g_yellowAngle) * Math.cos(g_yellowAngle)), 0, 0, 1);
   bigRightWing.matrix.rotate(70 * (Math.sin(g_yellowAngle)), 1, 0, 0);
   bigRightWing.matrix.scale(0.02, -0.65, 0.5);
+  bigRightWing.normalMatrix.setInverseOf(bigRightWing.matrix).transpose();
   bigRightWing.render();
 
   var smallRightWing = new TriPrism();
@@ -123,6 +132,7 @@ function hummingbird(offsetX = 0, offsetY = 0, offsetZ = 0){
   smallerRightWing.matrix.rotate(-6, 1, 0, 0);
   smallerRightWing.matrix.translate(-.8, 0,0);
   smallerRightWing.matrix.scale(1, 0.8, 0.9);
+  smallerRightWing.normalMatrix.setInverseOf(smallerRightWing.matrix).transpose();
   smallerRightWing.render();
 
   var bigLefttWing = new TriPrism();
@@ -142,6 +152,7 @@ function hummingbird(offsetX = 0, offsetY = 0, offsetZ = 0){
   bigLefttWing.matrix.rotate(-45 * (2*Math.sin(g_yellowAngle) * Math.cos(g_yellowAngle)), 0, 0, 1);
   bigLefttWing.matrix.rotate(70 * (Math.sin(g_yellowAngle)), 1, 0, 0);
   bigLefttWing.matrix.scale(0.02, -0.65, 0.5);
+  bigLefttWing.normalMatrix.setInverseOf(bigLefttWing.matrix).transpose();
   bigLefttWing.render();
 
   var smallLeftWing = new TriPrism();
@@ -166,6 +177,7 @@ function hummingbird(offsetX = 0, offsetY = 0, offsetZ = 0){
   smallerLeftWing.matrix.rotate(-6, 1, 0, 0);
   smallerLeftWing.matrix.translate(.8, 0, 0);
   smallerLeftWing.matrix.scale(1, 0.8, 0.9);
+  smallerLeftWing.normalMatrix.setInverseOf(smallerLeftWing.matrix).transpose();
   smallerLeftWing.render();
 
   var rightLeg = new Cube();
@@ -176,6 +188,7 @@ function hummingbird(offsetX = 0, offsetY = 0, offsetZ = 0){
   // rightLeg.matrix.rotate(g_leg, 0, 1,0);
   rightLeg.matrix.rotate(10 * g_leg, 0, 1,0);
   rightLeg.matrix.translate(1.2,- 0.8, 1);
+  rightLeg.normalMatrix.setInverseOf(rightLeg.matrix).transpose();
   rightLeg.render();
 
   var rightFoot = new Cube();
@@ -185,6 +198,7 @@ function hummingbird(offsetX = 0, offsetY = 0, offsetZ = 0){
   rightFoot.matrix.rotate(g_foot/2 + g_blink/90, 0, 0,1);
   rightFoot.matrix.translate(0.5, -0.01, 0.001);
   rightFoot.matrix.scale(-2.51,0.0501, 1.001);
+  rightFoot.normalMatrix.setInverseOf(rightFoot.matrix).transpose();
   rightFoot.render();
 
   var rightTalon1 = new Cube();
@@ -196,6 +210,7 @@ function hummingbird(offsetX = 0, offsetY = 0, offsetZ = 0){
   rightTalon1.matrix.rotate(10 * g_talon, 0, 0,1);
   rightTalon1.matrix.translate(1, 1, 0);
   rightTalon1.matrix.scale(0.5, 0.5, 0.5);
+  rightTalon1.normalMatrix.setInverseOf(rightTalon1.matrix).transpose();
   rightTalon1.render();
 
   var rightTalon2 = new Cube();
@@ -204,6 +219,7 @@ function hummingbird(offsetX = 0, offsetY = 0, offsetZ = 0){
   rightTalon2.matrix = new Matrix4(rightTalon1.matrix);
   rightTalon2.matrix.translate(0, 0, 1.3);
   // rightTalon1.matrix.rotate(45 * g_talon, 0, 0,1);
+  rightTalon2.normalMatrix.setInverseOf(rightTalon2.matrix).transpose();
   rightTalon2.render();
 
   var rightTalon3 = new Cube();
@@ -211,6 +227,7 @@ function hummingbird(offsetX = 0, offsetY = 0, offsetZ = 0){
   rightTalon3.textureNum = tex;
   rightTalon3.matrix = new Matrix4(rightTalon1.matrix);
   rightTalon3.matrix.translate(0, 0, 1.3);
+  rightTalon3.normalMatrix.setInverseOf(rightTalon3.matrix).transpose();
   rightTalon3.render();
 
   var leftLeg = new Cube();
@@ -220,6 +237,7 @@ function hummingbird(offsetX = 0, offsetY = 0, offsetZ = 0){
   leftLeg.matrix.scale(0.03, 0.5, 0.03);
   leftLeg.matrix.translate(1.2,- 0.8, 1 + 6.5);
   leftLeg.matrix.rotate(10 * g_leg, 0, 1,0);
+  leftleg.normalMatrix.setInverseOf(leftleg.matrix).transpose();
   leftLeg.render();
   // leftLeg.color = [9/255, 77/255, 23/255, 1];
   // leftLeg.matrix = rightLeg.matrix;
@@ -234,6 +252,7 @@ function hummingbird(offsetX = 0, offsetY = 0, offsetZ = 0){
   leftFoot.matrix.rotate(g_foot/2 + g_blink/90, 0, 0,1);
   leftFoot.matrix.translate(0.5, -0.01, 0.001);
   leftFoot.matrix.scale(-2.51,0.0501, 1.001);
+  leftFoot.normalMatrix.setInverseOf(leftFoot.matrix).transpose();
   leftFoot.render();
 
   var leftTalon1 = new Cube();
@@ -243,6 +262,7 @@ function hummingbird(offsetX = 0, offsetY = 0, offsetZ = 0){
   leftTalon1.matrix.rotate(10 * g_talon, 0, 0,1);
   leftTalon1.matrix.translate(1, 1, 0);
   leftTalon1.matrix.scale(0.5, 0.5, 0.5);
+  leftTalon1.normalMatrix.setInverseOf(leftTalon1.matrix).transpose();
   leftTalon1.render();
 
   var leftTalon2 = new Cube();
@@ -250,6 +270,7 @@ function hummingbird(offsetX = 0, offsetY = 0, offsetZ = 0){
   leftTalon2.textureNum = tex;
   leftTalon2.matrix = new Matrix4(leftTalon1.matrix);
   leftTalon2.matrix.translate(0, 0, 1.3);
+  leftTalon2.normalMatrix.setInverseOf(leftTalon2.matrix).transpose();
   leftTalon2.render();
 
   var leftTalon3 = new Cube();
@@ -257,5 +278,6 @@ function hummingbird(offsetX = 0, offsetY = 0, offsetZ = 0){
   leftTalon3.textureNum = tex;
   leftTalon3.matrix = new Matrix4(leftTalon1.matrix);
   leftTalon3.matrix.translate(0, 0, 1.3);
+  leftTalon3.normalMatrix.setInverseOf(leftTalon3.matrix).transpose();
   leftTalon3.render();
 }

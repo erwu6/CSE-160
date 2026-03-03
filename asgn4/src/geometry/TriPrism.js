@@ -3,6 +3,7 @@ class TriPrism{
         this.type = "triprism";
         this.color = [1.0, 1.0, 1.0, 1.0];
         this.matrix = new Matrix4();
+        this.normalMatrix = new Matrix4();
         this.textureNum = -2;
     }
 
