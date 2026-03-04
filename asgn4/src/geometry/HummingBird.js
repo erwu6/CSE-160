@@ -148,7 +148,7 @@ function hummingbird(offsetX = 0, offsetY = 0, offsetZ = 0){
   bigRightWing.matrix.rotate(70 * (Math.sin(g_yellowAngle)), 1, 0, 0);
   bigRightWing.matrix.scale(0.02, -0.65, 0.5);
   bigRightWing.normalMatrix.setInverseOf(bigRightWing.matrix).transpose();
-  updateNormals(bigRightWing);
+  // updateNormals(bigRightWing);
   bigRightWing.render();
 
   var smallRightWing = new TriPrism();
@@ -162,7 +162,7 @@ function hummingbird(offsetX = 0, offsetY = 0, offsetZ = 0){
   smallRightWing.matrix.translate(-.8, 0,0);
   smallRightWing.matrix.scale(1, 0.8, 0.9);
   smallRightWing.normalMatrix.setInverseOf(smallRightWing.matrix).transpose();
-  updateNormals(smallRightWing);
+  // updateNormals(smallRightWing);
   smallRightWing.render();
 
   var smallerRightWing = new TriPrism();
@@ -176,7 +176,7 @@ function hummingbird(offsetX = 0, offsetY = 0, offsetZ = 0){
   smallerRightWing.matrix.translate(-.8, 0,0);
   smallerRightWing.matrix.scale(1, 0.8, 0.9);
   smallerRightWing.normalMatrix.setInverseOf(smallerRightWing.matrix).transpose();
-    updateNormals(smallerRightWing);
+    // updateNormals(smallerRightWing);
   smallerRightWing.render();
 
   var bigLefttWing = new TriPrism();
@@ -211,7 +211,7 @@ function hummingbird(offsetX = 0, offsetY = 0, offsetZ = 0){
   smallLeftWing.matrix.translate(.8, 0, 0);
   smallLeftWing.matrix.scale(1, 0.8, 0.9);
   smallLeftWing.normalMatrix.setInverseOf(smallLeftWing.matrix).transpose();
-      updateNormals(smallLeftWing);
+      // updateNormals(smallLeftWing);
   smallLeftWing.render();
 
   var smallerLeftWing = new TriPrism();
@@ -225,7 +225,7 @@ function hummingbird(offsetX = 0, offsetY = 0, offsetZ = 0){
   smallerLeftWing.matrix.translate(.8, 0, 0);
   smallerLeftWing.matrix.scale(1, 0.8, 0.9);
   smallerLeftWing.normalMatrix.setInverseOf(smallerLeftWing.matrix).transpose();
-        updateNormals(smallerLeftWing);
+        // updateNormals(smallerLeftWing);
   smallerLeftWing.render();
 
   var rightLeg = new Cube();
