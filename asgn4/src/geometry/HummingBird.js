@@ -237,7 +237,7 @@ function hummingbird(offsetX = 0, offsetY = 0, offsetZ = 0){
   leftLeg.matrix.scale(0.03, 0.5, 0.03);
   leftLeg.matrix.translate(1.2,- 0.8, 1 + 6.5);
   leftLeg.matrix.rotate(10 * g_leg, 0, 1,0);
-  leftleg.normalMatrix.setInverseOf(leftleg.matrix).transpose();
+  leftLeg.normalMatrix.setInverseOf(leftLeg.matrix).transpose();
   leftLeg.render();
   // leftLeg.color = [9/255, 77/255, 23/255, 1];
   // leftLeg.matrix = rightLeg.matrix;
