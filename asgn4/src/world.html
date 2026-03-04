@@ -12,25 +12,23 @@
     <!-- <img id="drawing" src="drawing.png" alt="drawing of a duck and flower" style="width: 400px; visibility: hidden;" > -->
    
     <!-- <p>Details about the number of dots used: -->
-    <p id="numdot"> Welcome to my Assignment 3 work! </p>
-    <p>Welcome to my Assignment 3 work! - Erika Wu ( erjiwu@ucsc.edu )
-      Help the humming bird find flowers by being near the flower cube! You can move with WASD and arrow keys. Q & R and your mouse can be used to change the camera angles. If you are not able to move, you might be stuck behind or nearby a wall (or have Caps lock on!).
+    <p id="numdot"> Welcome to my Assignment 4 work! </p>
+    <p>Welcome to my Assignment 4 work! - Erika Wu ( erjiwu@ucsc.edu ). The spotlight works the best when looking on the otherside of the hummingbird. Click the SPOTLIGHT button again to turn off the spotlight.
     </p>
 
-    <b>Click 'r' for a surprise!</b>
+    <!-- <b>Click 'r' for a surprise!</b> -->
 
-    <p>
+    <!-- <p>
       Here you can add blocks, remove block, and reset the map. Note you can also add blocks with 'shift + click' and to stack blocks, aim/face the bottom block. If you remove nothing for too long, you might run into a surprise!
    <p> <button type="button" id="addBlock">Add Block</button>
     <button type="button" id="removeBlock">Remove Block</button></p>
-    </p>
+    </p> -->
     <p>
       <button type="button" id="normalOn">Normal On</button>
       <button type="button" id="normalOff">Normal Off</button>
-    </p>
-    <p>
       <button type="button" id="lightOn">Light On</button>
       <button type="button" id="lightOff">Light Off</button>
+      <button type="button" id="spotlight">SPOTLIGHT</button>
     </p>
     <p>
       Light X <input type="range" min="-250" max="250" value="0" class="slider" id="lightX">
@@ -39,6 +37,7 @@
 
       Light Z <input type="range" min="-250" max="250" value="200" class="slider" id="lightZ">
     </p>
+    Camera Angle around the HummingBird<input type="range" min="-90" max="180" value="5" class="slider" id="angleSlide">
 
     <p>Flap Wings <input type="range" min="-45" max="45" value="0" class="slider" id="yellowSlide"> 
     <button type="button" id="startani">Start Animation</button>
@@ -47,8 +46,7 @@
         <button type="button" id="reset">Reset</button>
     </p>
     <p>
-      Camera Angle around the HummingBird<input type="range" min="-90" max="180" value="5" class="slider" id="angleSlide">
-
+    
       Legs <input type="range" min="-2" max="2" value="0" class="slider" id="legSlide">
 
       Foot <input type="range" min="-2" max="2" value="0" class="slider" id="footSlide">
@@ -68,6 +66,7 @@
     <script src="geometry/Cube.js"></script>
     <script src="geometry/TriPrism.js"></script>
     <script src="geometry/Sphere.js"></script>
+    <script src="Model.js"></script>
     <script src="world.js"></script>
     <script src="https://mrdoob.github.io/stats.js/build/stats.min.js"></script>
   </body>

@@ -31,6 +31,10 @@ var FSHADER_SOURCE =
   'uniform vec4 u_FragColor;\n' +  
   'uniform sampler2D u_Sampler0;\n' + 
   'uniform sampler2D u_Sampler1;\n' + 
+  'uniform bool u_spotOn;\n' + 
+  'uniform vec3 u_spotPos;\n' + 
+  'uniform vec3 u_spotDir;\n' + 
+  'uniform float u_spotCutoff;\n' + 
   'uniform int u_whichTexture;\n' + 
   'uniform vec3 u_lightPos;\n' + 
   'uniform vec3 u_cameraPos;\n' + 
@@ -74,6 +78,15 @@ var FSHADER_SOURCE =
 
   'vec3 diffuse = vec3(gl_FragColor) * nDotL *0.7;\n' +
   'vec3 ambient = vec3(gl_FragColor) * 0.3;\n' +
+  'if (u_spotOn) {\n' +
+  '   vec3 spotLightVec = u_spotPos - vec3(v_VertPos);\n' +
+  '   vec3 spotL = normalize(spotLightVec);\n' +
+  '   float theta = dot(normalize(-spotL), normalize(u_spotDir));\n' +
+  '   if (theta > u_spotCutoff) {\n' + 
+  '     float spotDiffuse = max(dot(N, spotL), 0.0);\n' + 
+  '     diffuse += vec3(gl_FragColor) * spotDiffuse;\n' + 
+  '     }\n' +
+   '}\n' +
   'if (u_lightOn) {\n' +
   '   if (u_whichTexture > -3) {\n' +
   '     gl_FragColor = vec4(specular+diffuse+ambient, 1.0);\n' +
@@ -82,6 +95,27 @@ var FSHADER_SOURCE =
   '     }\n' +
   '   }\n' +
   '}\n';
+
+  //from ChatGPT
+//   vec3 finalColor = ambient + diffuse;
+
+// if (u_spotOn) {
+//     vec3 spotLightVec = u_spotPos - vec3(v_VertPos);
+//     vec3 spotL = normalize(spotLightVec);
+
+//     float theta = dot(normalize(-spotL), normalize(u_spotDir));
+
+//     if (theta > u_spotCutoff) {
+//         float spotDiffuse = max(dot(N, spotL), 0.0);
+//         ambient + diffuse += vec3(gl_FragColor) * spotDiffuse;
+//     }
+// }
+
+// if (u_lightOn) {
+//     finalColor += specular;
+// }
+
+// gl_FragColor = vec4(finalColor, 1.0);
 
 // Global Variables
 var stats; 
@@ -104,6 +138,10 @@ let u_lightPos;
 let found = false;
 let u_cameraPos;
 let u_lightOn;
+let u_spotOn;
+let u_spotPos;
+let u_spotDir;
+let u_spotCutoff;
 
 function setupWebGL() {
   // Retrieve <canvas> element
@@ -177,6 +215,31 @@ function connectVariablesToGLSL() {
     console.log('Failed to get the storage location of u_lightPos');
     return;
   }
+
+  u_spotOn = gl.getUniformLocation(gl.program, 'u_spotOn');
+  if (!u_spotOn){
+    console.log('Failed to get the storage location of u_spotOn');
+    return;
+  }
+
+  u_spotPos= gl.getUniformLocation(gl.program, 'u_spotPos');
+  if (!u_spotPos){
+    console.log('Failed to get the storage location of u_spotPos');
+    return;
+  }
+
+  u_spotDir= gl.getUniformLocation(gl.program, 'u_spotDir');
+  if (!u_spotDir){
+    console.log('Failed to get the storage location of u_spotDir');
+    return;
+  }
+
+  u_spotCutoff = gl.getUniformLocation(gl.program, 'u_spotCutoff');
+  if (!u_spotCutoff){
+    console.log('Failed to get the storage location of u_spotCutoff');
+    return;
+  }
+
 
   u_ModelMatrix = gl.getUniformLocation(gl.program, 'u_ModelMatrix');
   if (!u_ModelMatrix){
@@ -265,6 +328,8 @@ let rain = false;
 let win_x = 0;
 let win_y = 0;
 let g_lightPos=[0,1,-2];
+var bunny;
+let spotlight = false;
 
 function addActionsForHtmlUI(){
 
@@ -296,8 +361,9 @@ function addActionsForHtmlUI(){
 
   document.getElementById('talonSlide').addEventListener('input', function() {g_talon = this.value; renderScene(); } );
 
-  document.getElementById('addBlock').onclick = function(){addBlock = true; removeBlock = false;};
-  document.getElementById('removeBlock').onclick = function(){removeBlock = true; addBlock = false;};
+  // document.getElementById('addBlock').onclick = function(){addBlock = true; removeBlock = false;};
+  // document.getElementById('removeBlock').onclick = function(){removeBlock = true; addBlock = false;};
+  document.getElementById('spotlight').onclick = function(){spotlight = !spotlight;};
 
 }
 
@@ -388,33 +454,6 @@ function sendTextureToTEXTURE1(image) {
   console.log('Texture loaded successfully');
 }
 
-function raining(){
-  if (g_shapesList.length == 0){
-    for (let i=0;i<200;i++){
-      g_shapesList.push({x: Math.random()*32-16, y: Math.random()*50, z: Math.random()*32-16});
-    }
-  }
-  for (let i=0;i<200;i++){
-    // var x = Math.random()*32-16;
-    // var y = Math.random()*50;
-    // var z = Math.random()*32-16;
-
-    g_shapesList[i].y -= .5;
-    if (g_shapesList[i].y < -16) {g_shapesList[i].y = Math.random()*50;};
-
-    // drop.matrix.scale(0.02, 0.03, 0.02);
-    var drop = new Cube();
-    drop.color = [0, 0, 1, 1];
-    drop.textureNum = g_normalOn ? -3 : -2;
-    drop.matrix.translate(g_shapesList[i].x, g_shapesList[i].y, g_shapesList[i].z);
-    drop.matrix.scale(0.08, 0.4, 0.08);
-    // drop.matrix.translate(Math.random()*32-16, 16, Math.random()*32-16);
-    // drop.matrix.translate(Math.random()*32-16, 16, Math.random()*32-16);
-    // g_shapesList.push(drop);
-    drop.renderFast();
-  }
-}
-
 function main() {
 
   setupWebGL();
@@ -424,11 +463,14 @@ function main() {
 
   // Register function (event handler) to be called on a mouse press
   // canvas.onmousedown = click;
+  bunny = new Model(gl, "bunnyOBJ.obj");
   // canvas.onmousemove = click;
-  canvas.onmousedown = function(ev) { if (ev.shiftKey && ev.button === 0) {
-      blinkHop = true;
-      addBlock = true;
-    }; g_click = true; g_x = ev.clientX; g_y = ev.clientY; };
+  canvas.onmousedown = function(ev) { 
+  // if (ev.shiftKey && ev.button === 0) {
+  //     blinkHop = true;
+  //     addBlock = true;
+  //   }; 
+  g_click = true; g_x = ev.clientX; g_y = ev.clientY; };
   canvas.onmouseup = function() { g_click = false; };
   canvas.onmousemove = function(ev){ 
     if (g_click) { 
@@ -469,7 +511,7 @@ function main() {
   document.body.appendChild(stats.dom);
 
   // Specify the color for clearing <canvas>
-  gl.clearColor(150/255, 134/255, 166/255, 1.0);
+  gl.clearColor(0.5882, 0.5255, 0.6510, 1.0);
 
   requestAnimationFrame(tick);
 }
@@ -504,11 +546,11 @@ function keydown(ev){
   console.log('g_camera:', g_camera);
   console.log(win_x, win_y);
 
-  if (!found && (g_camera.eye.x < win_x + 2) && (g_camera.eye.x > win_x - 2) && (g_camera.eye.z < win_y + 2) && (g_camera.eye.z > win_y - 2)){
-    alert("You found the flowers! To play again, refresh the page.");
-    found = true;
-    g_camera.reset();
-  }
+  // if (!found && (g_camera.eye.x < win_x + 2) && (g_camera.eye.x > win_x - 2) && (g_camera.eye.z < win_y + 2) && (g_camera.eye.z > win_y - 2)){
+  //   alert("You found the flowers! To play again, refresh the page.");
+  //   found = true;
+  //   g_camera.reset();
+  // }
 
   renderScene();
   console.log(ev.keyCode);
@@ -560,6 +602,14 @@ function renderScene(ev){
 
   gl.uniform1i(u_lightOn, g_lightOn);
 
+  gl.uniform1i(u_spotOn, spotlight);
+
+  gl.uniform3f(u_spotPos, g_camera.eye.x, g_camera.eye.y, g_camera.eye.z);
+
+  gl.uniform3f(u_spotPos, 0.0, 0.5, -5.0);
+  gl.uniform3f(u_spotDir, 0.0, 0.0, 1.0);
+  gl.uniform1f(u_spotCutoff, Math.cos(0.3));   // cone size
+
   var light = new Cube();
   light.color = [2,2,0,1];
   light.matrix.translate(g_lightPos[0], g_lightPos[1],g_lightPos[2]);
@@ -567,11 +617,29 @@ function renderScene(ev){
   light.matrix.translate(-.5,-.5,-.5);
   light.render();
 
+  if (spotlight){
+    var light2 = new Cube();
+    light2.color = [2,2,0,1];
+    light2.matrix.translate(0, 10,-5);
+    light2.matrix.rotate(180, 0,1,0);
+    light2.matrix.rotate(-5, 0,0,1);
+    light2.matrix.scale(.1,.1,.1);
+    light2.render();
+  }
+
   var ball = new Sphere();
   // ball.color = [125/255, 175/255, 255/255,1];
   ball.textureNum = g_normalOn ? -3 : -2;
-  ball.matrix.translate(-1.5, .5, -1.5);
+  ball.matrix.translate(1.5, .5, -1.5);
   ball.render();
+
+  bunny.color = [0,1,0,1];
+  bunny.matrix.setScale(.2,.2,.2);
+  bunny.matrix.translate(-1.5, -3, -3);
+  bunny.matrix.rotate(180, 0, 1,0);
+  if (bunny.isFullyLoaded) {
+    bunny.render(gl);
+  }
 
   //floor
   var floor = new Cube();
@@ -579,6 +647,7 @@ function renderScene(ev){
   // use normal-visualization texture when the toggle is on
   floor.textureNum = g_normalOn ? -3 : -2;
   floor.matrix.translate(0, -0.75, 0);
+  floor.textureNum = g_normalOn ? -3 : -2;
   floor.matrix.scale(35, 0.01, 35);
   floor.matrix.translate(-.5,0,-.5);
   floor.render();
@@ -587,17 +656,12 @@ function renderScene(ev){
   var sky = new Cube();
   sky.color = [125/255, 175/255, 255/255,1];
   sky.textureNum = g_normalOn ? -3 : -2;
-  sky.matrix.scale(-5,-5,-5);
+  sky.matrix.scale(-10,-10,-10);
   sky.matrix.translate(-.5, -.5, -.5);
   sky.render();
-
   // drawMap();
 
   hummingbird(0, 0, 0);
-
-  if (rain){
-    raining();
-  }
 
   var duration = performance.now() - startTime;
   sendTextToHTML(" ms: " + Math.floor(duration) + "  fps: " + Math.floor(10000/duration), "numdot");
@@ -688,8 +752,8 @@ function tick(){
 }
 
 function updateAnimaltionAngles(){
-  if (g_yellowAngle){
-    g_yellowAngle = (45*Math.sin(g_seconds));
-  }
+  // if (g_yellowAngle){
+  //   g_yellowAngle = (45*Math.sin(g_seconds));
+  // }
   g_lightPos[0] = Math.cos(g_seconds);
 }

@@ -55,7 +55,13 @@ class Cube{
 
         gl.uniformMatrix4fv(u_ModelMatrix, false, this.matrix.elements);
 
+        this.normalMatrix.setInverseOf(this.matrix);
+        this.normalMatrix.transpose();
+        gl.uniformMatrix4fv(u_NormalMatrix, false, this.normalMatrix.elements);
+
         // gl.uniform1i(u_whichTexture, this.textureNum);
+        gl.vertexAttribPointer(a_Normal, 3, gl.FLOAT, false, 0, 0);
+        gl.enableVertexAttribArray(a_Normal);
 
         //front
         drawTriangle3DUVNormal([0,0,0, 1,1,0, 1,0,0], [0,0, 1,1, 1,0], [0,0,-1, 0,0,-1, 0,0,-1]);
