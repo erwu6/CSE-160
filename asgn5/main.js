@@ -20,8 +20,31 @@ const far = 500;
 const camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
 camera.position.z = 3;
 RectAreaLightUniformsLib.init();
-camera.position.set( 0, 10, 20 );
+camera.position.set( 10, 10, 10 );
 const cameraHelper = new THREE.CameraHelper(camera);
+const raycaster = new THREE.Raycaster();
+const mouse = new THREE.Vector2();
+let cylinderMoving = false;
+let split = false;
+const duckSound = new Audio('lib/freesound_duck-14494.mp3');
+const duckSound2 = new Audio('lib/freesound_duck-14494.mp3');
+
+view2Elem.style.display = split ? "block" : "none";
+window.addEventListener('keydown', (event) => {
+  if (event.key === 'i') {
+    split = !split;
+
+	view2Elem.style.display = split ? "block" : "none";
+  }
+  if (event.key === 'd') {
+    duckSound.play();
+	if (split){
+		setTimeout(() => {
+            duckSound.play();  // second quack after 1 second
+        }, 500);
+	}
+  }
+});
 
 class MinMaxGUIHelper {
   constructor(obj, minProp, maxProp, minDif) {
@@ -56,9 +79,8 @@ gui.add(camera, 'fov', 1, 180).onChange(updateCamera);
 const minMaxGUIHelper = new MinMaxGUIHelper(camera, 'near', 'far', 0.1);
 gui.add(minMaxGUIHelper, 'min', 0.1, 50, 0.1).name('near').onChange(updateCamera);
 gui.add(minMaxGUIHelper, 'max', 0.1, 500, 0.1).name('far').onChange(updateCamera);
-
 const controls = new OrbitControls( camera, view1Elem );
-controls.target.set( 0, 5, 0 );
+controls.target.set( 0, 10, 5 );
 controls.update();
 
 const camera2 = new THREE.PerspectiveCamera(
@@ -83,20 +105,9 @@ const boxHeight = 3;
 const boxDepth = 3;
 const loadManager = new THREE.LoadingManager();
 const loader = new THREE.TextureLoader( loadManager );
-const texture1 = loader.load( 'lib/floral.jpg' );
 const cubes = [];
-texture1.colorSpace = THREE.SRGBColorSpace;
 const geometry = new THREE.BoxGeometry(boxWidth, boxHeight, boxDepth);
-// const material = new THREE.MeshPhongMaterial({color: 0x44aa88});  // greenish blue
 const material = new THREE.MeshBasicMaterial({map: loadColorTexture('lib/flowers.jpg' )});
-const materials = [
-    new THREE.MeshBasicMaterial({map: loadColorTexture('lib/floral.jpg' )}),
-    new THREE.MeshBasicMaterial({map: loadColorTexture('lib/leaves.jpg' )}),
-    new THREE.MeshBasicMaterial({map: loadColorTexture('lib/sky.jpg' )}),
-    new THREE.MeshBasicMaterial({map: loadColorTexture('lib/flowers.jpg' )}),
-    new THREE.MeshBasicMaterial({map: loadColorTexture('lib/sky.jpg')}),
-    new THREE.MeshBasicMaterial({map: loadColorTexture('lib/leaves.jpg' )}),
-  ];
 
 const loadingElem = document.querySelector('#loading');
 const progressBarElem = loadingElem.querySelector('.progressbar');
@@ -161,27 +172,6 @@ class DegRadHelper {
 	set value( v ) {
 
 		this.obj[ this.prop ] = THREE.MathUtils.degToRad( v );
-
-	}
-
-}
-
-class StringToNumberHelper {
-
-	constructor( obj, prop ) {
-
-		this.obj = obj;
-		this.prop = prop;
-
-	}
-	get value() {
-
-		return this.obj[ this.prop ];
-
-	}
-	set value( v ) {
-
-		this.obj[ this.prop ] = parseFloat( v );
 
 	}
 
@@ -320,6 +310,7 @@ class StringToNumberHelper {
 	water.position.set(0,1.25,0);
 	water.rotation.x = -Math.PI / 2;
 	scene.add(water);
+
 {
 	const pillarGeo = new THREE.BoxGeometry(3, 20, 3);
 	const pillarMat = new THREE.MeshStandardMaterial({color: '#8AC'});
@@ -376,6 +367,15 @@ class StringToNumberHelper {
 	wall.position.set(-12,20,0);
 	scene.add(wall);
 }
+const cylinderGeo = new THREE.CylinderGeometry(1, 1, 2, 32);
+const cylinderMat = new THREE.MeshStandardMaterial({ color: '#ff8844' });
+
+const cylinder = new THREE.Mesh(cylinderGeo, cylinderMat);
+
+cylinder.position.set(-12, 45.5, -12);
+cylinder.rotation.z = -Math.PI / 2;
+
+scene.add(cylinder);
 // stairs
 {
 	let y = 20;
@@ -431,10 +431,40 @@ function render(time) {
 	water.material.uniforms['time'].value = Math.sin(time * speed);
  
     // turn on the scissor
-    renderer.setScissorTest(true);
+    renderer.setScissorTest(split);
+
+	if (cylinder.position.y > 21.1) {
+
+		cylinder.position.z += 0.03;
+		cylinder.position.y -= 0.03;
+
+		cylinder.rotation.x -= 0.08;
+
+	}
+	else{
+		if (cylinder.position.y > 0){
+			cylinder.position.y -= 0.5;
+		}
+}
+
+	if (!split) {
+		const aspect = setScissorForElement(canvas);
+ 
+		camera.aspect = aspect;
+		camera.updateProjectionMatrix();
+		cameraHelper.update();
+	
+		// don't draw the camera helper in the original view
+		cameraHelper.visible = false;
+	
+		//   scene.background.set(0x000000);
+	
+		// render
+      renderer.render(scene, camera);
+	}
  
     // render the original view
-    {
+    if (split) {
       const aspect = setScissorForElement(view1Elem);
  
       // adjust the camera for this aspect
@@ -449,10 +479,10 @@ function render(time) {
  
       // render
       renderer.render(scene, camera);
-    }
+	}
  
     // render from the 2nd camera
-    {
+    if (split) {
       const aspect = setScissorForElement(view2Elem);
  
       // adjust the camera for this aspect
